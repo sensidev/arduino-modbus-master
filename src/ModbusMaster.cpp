@@ -178,9 +178,9 @@ serial ports, etc. is permitted within callback function.
 
 @see ModbusMaster::ModbusMasterTransaction()
 */
-void ModbusMaster::idle(void (*idle)())
+void ModbusMaster::idle(std::function<void(void)> f)
 {
-  _idle = idle;
+  _idle = f;
 }
 
 /**
@@ -193,9 +193,9 @@ Driver Enable pin, and optionally disable its Receiver Enable pin.
 @see ModbusMaster::ModbusMasterTransaction()
 @see ModbusMaster::postTransmission()
 */
-void ModbusMaster::preTransmission(void (*preTransmission)())
+void ModbusMaster::preTransmission(std::function<void(void)> f)
 {
-  _preTransmission = preTransmission;
+  _preTransmission = f;
 }
 
 /**
@@ -211,9 +211,9 @@ Receiver Enable pin, and disable its Driver Enable pin.
 @see ModbusMaster::ModbusMasterTransaction()
 @see ModbusMaster::preTransmission()
 */
-void ModbusMaster::postTransmission(void (*postTransmission)())
+void ModbusMaster::postTransmission(std::function<void(void)> f)
 {
-  _postTransmission = postTransmission;
+  _postTransmission = f;
 }
 
 

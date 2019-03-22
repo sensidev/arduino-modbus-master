@@ -49,6 +49,7 @@ Set to 1 to enable debugging features within class:
 /* _____STANDARD INCLUDES____________________________________________________ */
 // include types & constants of Wiring core API
 #include "Arduino.h"
+#include <functional>
 
 /* _____UTILITY MACROS_______________________________________________________ */
 
@@ -72,9 +73,9 @@ class ModbusMaster
     ModbusMaster();
 
     void begin(uint8_t, Stream &serial);
-    void idle(void (*)());
-    void preTransmission(void (*)());
-    void postTransmission(void (*)());
+    void idle(std::function<void(void)> f);
+    void preTransmission(std::function<void(void)> f);
+    void postTransmission(std::function<void(void)> f);
 
     // Modbus exception codes
     /**
@@ -255,11 +256,11 @@ class ModbusMaster
     uint8_t ModbusMasterTransaction(uint8_t u8MBFunction);
 
     // idle callback function; gets called during idle time between TX and RX
-    void (*_idle)();
+    std::function<void(void)> _idle;
     // preTransmission callback function; gets called before writing a Modbus message
-    void (*_preTransmission)();
+    std::function<void(void)> _preTransmission;
     // postTransmission callback function; gets called after a Modbus message has been sent
-    void (*_postTransmission)();
+    std::function<void(void)> _postTransmission;
 };
 #endif
 
